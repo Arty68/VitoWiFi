@@ -122,9 +122,21 @@ void VitoWiFiClass<P>::loop() {
   _optolink.loop();
   if (!_queue.empty() && !_optolink.isBusy()) {
     if (!_queue.front().write) {
-      _optolink.readFromDP(_queue.front().DP->getAddress(), _queue.front().DP->getLength());
+		if (std::is_same<P, OptolinkGWG>::value != true ) {
+			_optolink.readFromDP(_queue.front().DP->getAddress(), _queue.front().DP->getLength());
+		}
+		else
+		{
+			_optolink.readFromDP(_queue.front().DP->getFunction(),_queue.front().DP->getAddress(), _queue.front().DP->getLength());
+		}
     } else {
-      _optolink.writeToDP(_queue.front().DP->getAddress(), _queue.front().DP->getLength(), _queue.front().value);
+		if (std::is_same<P, OptolinkGWG>::value != true ) {
+			_optolink.writeToDP(_queue.front().DP->getAddress(), _queue.front().DP->getLength(), _queue.front().value);
+		}
+		else
+		{
+			_optolink.writeToDP(_queue.front().DP->getFunction(),_queue.front().DP->getAddress(), _queue.front().DP->getLength(), _queue.front().value);
+		}
     }
     return;
   }

@@ -78,4 +78,5 @@ class VitoWiFiClass {
 
 #define P300 OptolinkP300
 #define KW OptolinkKW
+#define GWG OptolinkGWG
 #define VitoWiFi_setProtocol(protocol) VitoWiFiClass<protocol> VitoWiFi
