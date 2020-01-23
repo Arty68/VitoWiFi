@@ -133,7 +133,7 @@ void OptolinkGWG::_sendHandler() {
   if (_writeMessageType) {
     // type is WRITE
     // has length of 4 chars + length of value
-    buff[0] = 0xC8;
+    buff[0] = _function;
     buff[1] = _address;
     buff[2] = _length;
     buff[3] = _value;
@@ -144,7 +144,7 @@ void OptolinkGWG::_sendHandler() {
   } else {
     // type is READ
     // has fixed length of 4 chars
-    buff[0] = 0xCB;
+    buff[0] = _function;
     buff[1] = _address ;
     buff[2] = _length;
     buff[3] = 0x04;
@@ -191,19 +191,20 @@ void OptolinkGWG::_receiveHandler() {
 }
 
 // set properties for datapoint and move state to SEND
-bool OptolinkGWG::readFromDP(uint8_t address, uint8_t length) {
-  return _transmit(address, length, false, nullptr);
+bool OptolinkGWG::readFromDP(uint8_t function,uint8_t address, uint8_t length) {
+  return _transmit(function,address, length, false, nullptr);
 }
 
 // set properties datapoint and move state to SEND
-bool OptolinkGWG::writeToDP(uint8_t address, uint8_t length, uint8_t value[]) {
-  return _transmit(address, length, true, value);
+bool OptolinkGWG::writeToDP(uint8_t function,uint8_t address, uint8_t length, uint8_t value[]) {
+  return _transmit(function,address, length, true, value);
 }
 
-bool OptolinkGWG::_transmit(uint8_t address, uint8_t length, bool write, uint8_t value[]) {
+bool OptolinkGWG::_transmit(uint8_t function, uint8_t address, uint8_t length, bool write, uint8_t value[]) {
   if (_action != WAIT) {
     return false;
   }
+  _function = function;
   _address = address;
   _length = length;
   _writeMessageType = write;

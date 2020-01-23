@@ -27,6 +27,21 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <Arduino.h>
 #include "Constants.hpp"
 
+#define VIRTUAL_READ 0xC7
+#define VIRTUAL_WRITE 0xC4
+#define PHYSICAL_READ 0xCB
+#define PHYSICAL_WRITE 0xC8
+#define EEPROM_READ 0xAE
+#define EEPROM_WRITE 0xAD
+#define PHYSICAL_XRAM_READ 0xC5
+#define PHYSICAL_XRAM_WRITE 0xC3
+#define PHYSICAL_PORT_READ 0x6E
+#define PHYSICAL_PORT_WRITE 0x6D
+#define PHYSICAL_BE_READ 0x6D
+#define PHYSICAL_BE_WRITE 0x6D
+#define PHYSICAL_KMBUS_RAM_READ 0x33
+#define PHYSICAL_KMBUS_EEPROM_READ 0x43
+
 class OptolinkGWG {
  public:
   OptolinkGWG();
@@ -39,8 +54,8 @@ class OptolinkGWG {
   void loop();
   const int8_t available() const;
   const bool isBusy() const;
-  bool readFromDP(uint16_t address, uint8_t length);
-  bool writeToDP(uint16_t address, uint8_t length, uint8_t value[]);
+  bool readFromDP(uint8_t function, uint8_t address, uint8_t length);
+  bool writeToDP(uint8_t function, uint8_t address, uint8_t length, uint8_t value[]);
   void read(uint8_t value[]);
   const uint8_t readError();
   void setLogger(Print* printer);
@@ -49,6 +64,7 @@ class OptolinkGWG {
   Stream* _stream;
   enum OptolinkState : uint8_t { INIT, IDLE, SYNC, SEND, RECEIVE } _state;  // include INIT to reset devices compatible with P300
   enum OptolinkAction : uint8_t { WAIT, PROCESS, RETURN, RETURN_ERROR } _action;
+  uint8_t _function;
   uint8_t _address;
   uint8_t _length;
   bool _writeMessageType;
@@ -63,7 +79,7 @@ class OptolinkGWG {
   void _syncHandler();
   void _sendHandler();
   void _receiveHandler();
-  bool _transmit(uint8_t address, uint8_t length, bool write, uint8_t value[]);
+  bool _transmit(uint8_t function, uint8_t address, uint8_t length, bool write, uint8_t value[]);
   bool _debugMessage;
   inline void _printHex(Print* printer, uint8_t array[], uint8_t length);
   inline void _clearInputBuffer();
