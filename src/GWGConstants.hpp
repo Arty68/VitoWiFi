@@ -23,32 +23,19 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
 
-#include "Datapoint.hpp"
+#pragma once
 
-Callback IDatapoint::_globalCb = nullptr;
-std::vector<IDatapoint*> IDatapoint::_dps;
-
-IDatapoint::IDatapoint(const char* name, const char* group, uint8_t function, uint8_t address, bool writeable) :
-  _name(name),
-  _group(group),
-  _function(function),
-  _address(address),
-  _writeable(writeable),
-  _cb(nullptr) {
-    _dps.push_back(this);
-  }
-
-IDatapoint::~IDatapoint() {
-  for (auto it = _dps.begin(); it != _dps.end(); ++it) {
-    if (this == *it) _dps.erase(it);
-    return;
-  }
-}
-
-void IDatapoint::setValue(DPValue value) {
-  if (_cb) {
-    _cb(*this, value);
-  } else if (_globalCb) {
-    _globalCb(*this, value);
-  }
-}
+#define VIRTUAL_READ 0xC7
+#define VIRTUAL_WRITE 0xC4
+#define PHYSICAL_READ 0xCB
+#define PHYSICAL_WRITE 0xC8
+#define EEPROM_READ 0xAE
+#define EEPROM_WRITE 0xAD
+#define PHYSICAL_XRAM_READ 0xC5
+#define PHYSICAL_XRAM_WRITE 0xC3
+#define PHYSICAL_PORT_READ 0x6E
+#define PHYSICAL_PORT_WRITE 0x6D
+#define PHYSICAL_BE_READ 0x6D
+#define PHYSICAL_BE_WRITE 0x6D
+#define PHYSICAL_KMBUS_RAM_READ 0x33
+#define PHYSICAL_KMBUS_EEPROM_READ 0x43

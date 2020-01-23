@@ -46,11 +46,13 @@ class IDatapointGWG {
   template<class> friend class VitoWiFiClass;
 
  public:
-  IDatapointGWG(const char* name, const char* group, uint8_t address, bool writeable = false);
+  IDatapointGWG(const char* name, const char* group, uint8_t function,uint8_t address, bool writeable = false);
   ~IDatapointGWG();
   const char* getName() const { return _name; }
   const char* getGroup() const { return _group; }
   const uint8_t getAddress() const { return _address; }
+  const uint8_t getFunction() const { return _function; }
+  IDatapointGWG& setFunction(uint8_t address) { _function = function; return *this; }
   IDatapointGWG& setAddress(uint8_t address) { _address = address; return *this; }
   const bool isWriteable() const { return _writeable; }
   IDatapointGWG& setWriteable(bool writeable) { _writeable = writeable; return *this; }
@@ -65,6 +67,7 @@ class IDatapointGWG {
  protected:
   const char* _name;
   const char* _group;
+  uint8_t _function;
   uint8_t _address;
   bool _writeable;
   static Callback _globalCb;
@@ -79,8 +82,8 @@ class IDatapointGWG {
 template <class T>
 class DatapointGWG : public IDatapointGWG {
  public:
-  DatapointGWG(const char* name, const char* group, uint8_t address, bool writeable = false) :
-    IDatapointGWG(name, group, address, writeable) {}
+  DatapointGWG(const char* name, const char* group,uint8_t function, uint8_t address, bool writeable = false) :
+    IDatapointGWG(name, group, function, address, writeable) {}
 
  protected:
   T _t;

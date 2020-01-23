@@ -26,21 +26,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 #include <Arduino.h>
 #include "Constants.hpp"
+#include "GWGConstants.hpp"
 
-#define VIRTUAL_READ 0xC7
-#define VIRTUAL_WRITE 0xC4
-#define PHYSICAL_READ 0xCB
-#define PHYSICAL_WRITE 0xC8
-#define EEPROM_READ 0xAE
-#define EEPROM_WRITE 0xAD
-#define PHYSICAL_XRAM_READ 0xC5
-#define PHYSICAL_XRAM_WRITE 0xC3
-#define PHYSICAL_PORT_READ 0x6E
-#define PHYSICAL_PORT_WRITE 0x6D
-#define PHYSICAL_BE_READ 0x6D
-#define PHYSICAL_BE_WRITE 0x6D
-#define PHYSICAL_KMBUS_RAM_READ 0x33
-#define PHYSICAL_KMBUS_EEPROM_READ 0x43
 
 class OptolinkGWG {
  public:
