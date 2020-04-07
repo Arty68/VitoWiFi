@@ -102,7 +102,7 @@ void VitoWiFiClass<P>::_writeDatapoint(IDatapoint* dp, DPValue value, void* arg)
   if (!dp->isWriteable()) {
     if (_enablePrinter && _printer)
       _printer->println("DP is readonly, skipping");
-    return;
+    return ;
   }
   if (_queue.size() < (IDatapoint::_dps.size() * 2)) {
     uint8_t value_enc[MAX_DP_LENGTH] = {0};
@@ -122,22 +122,11 @@ void VitoWiFiClass<P>::loop() {
   _optolink.loop();
   if (!_queue.empty() && !_optolink.isBusy()) {
     if (!_queue.front().write) {
-		if (std::is_same<P, OptolinkGWG>::value != true ) {
-			_optolink.readFromDP(_queue.front().DP->getAddress(), _queue.front().DP->getLength());
-		}
-		else
-		{
 			_optolink.readFromDP(_queue.front().DP->getFunction(),_queue.front().DP->getAddress(), _queue.front().DP->getLength());
 		}
-    } else {
-		if (std::is_same<P, OptolinkGWG>::value != true ) {
-			_optolink.writeToDP(_queue.front().DP->getAddress(), _queue.front().DP->getLength(), _queue.front().value);
-		}
-		else
-		{
+     else {
 			_optolink.writeToDP(_queue.front().DP->getFunction(),_queue.front().DP->getAddress(), _queue.front().DP->getLength(), _queue.front().value);
 		}
-    }
     return;
   }
   if (_optolink.available() > 0) {  // trigger callback when ready and remove element from queue
@@ -150,7 +139,7 @@ void VitoWiFiClass<P>::loop() {
     _optolink.read(value_enc);
     _queue.front().DP->setValue(_queue.front().DP->decode(value_enc));
     _queue.pop();
-    return;
+    return ;
   }
   if (_optolink.available() < 0) {  // display error message and remove element from queue
     uint8_t errorCode = _optolink.readError();
@@ -161,7 +150,7 @@ void VitoWiFiClass<P>::loop() {
       _printer->println(errorCode, DEC);
     }
     _queue.pop();
-    return;
+    return ;
   }
 }
 

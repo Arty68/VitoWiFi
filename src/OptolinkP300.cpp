@@ -302,7 +302,7 @@ void OptolinkP300::_receiveAckHandler() {
 }
 
 // set properties for datapoint and move state to SEND
-bool OptolinkP300::readFromDP(uint16_t address, uint8_t length) {
+bool OptolinkP300::readFromDP(uint8_t function,uint16_t address, uint8_t length) {
   return _transmit(address, length, false, nullptr);
 }
 

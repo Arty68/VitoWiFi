@@ -48,11 +48,16 @@ class IDatapoint {
 
  public:
   IDatapoint(const char* name, const char* group, uint16_t address, bool writeable = false);
+  IDatapoint(const char* name, const char* group,uint8_t function, uint8_t address, bool writeable = false);
   ~IDatapoint();
   const char* getName() const { return _name; }
   const char* getGroup() const { return _group; }
   const uint16_t getAddress() const { return _address; }
+  const uint8_t getAddress8() const { return _address; }
   IDatapoint& setAddress(uint16_t address) { _address = address; return *this; }
+  IDatapoint& setAddress8(uint8_t address) { _address8 = address; return *this; }
+  IDatapoint& setFunction(uint8_t function) { _function = function; return *this; }
+  const uint8_t getFunction() const { return _function; }
   const bool isWriteable() const { return _writeable; }
   IDatapoint& setWriteable(bool writeable) { _writeable = writeable; return *this; }
   IDatapoint& setGlobalCallback(Callback cb) { _globalCb = cb; return *this; }
@@ -66,6 +71,8 @@ class IDatapoint {
  protected:
   const char* _name;
   const char* _group;
+  uint8_t _address8;
+  uint8_t _function;
   uint16_t _address;
   bool _writeable;
   static Callback _globalCb;
@@ -96,14 +103,11 @@ class Datapoint : public IDatapoint {
 template <class T>
 class DatapointGWG : public IDatapoint {
  public:
-  DatapointGWG(const char* name, const char* group,uint8_t function ,uint8_t address, bool writable);
-  DatapointGWG& setfunction(uint8_t function) { _function = function; return *this; }
-  const uint8_t getAddress() const { return _function; }
-  
+  DatapointGWG(const char* name, const char* group,uint8_t function ,uint8_t address, bool writeable = false):
+    IDatapoint(name, group,function, address, writeable) {}
 
  protected:
   T _t;
-  uint8_t _function;
 
  public:
   const size_t getLength() const { return _t.getLength(); }

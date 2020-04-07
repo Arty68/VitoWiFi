@@ -191,7 +191,7 @@ void OptolinkKW::_receiveHandler() {
 }
 
 // set properties for datapoint and move state to SEND
-bool OptolinkKW::readFromDP(uint16_t address, uint8_t length) {
+bool OptolinkKW::readFromDP(uint8_t function , uint16_t address, uint8_t length) {
   return _transmit(address, length, false, nullptr);
 }
 

@@ -32,6 +32,19 @@ IDatapoint::IDatapoint(const char* name, const char* group, uint16_t address, bo
   _name(name),
   _group(group),
   _address(address),
+  _address8(0),
+  _function(0),
+  _writeable(writeable),
+  _cb(nullptr) {
+    _dps.push_back(this);
+  }
+  
+  IDatapoint::IDatapoint(const char* name, const char* group,uint8_t function, uint8_t address, bool writeable) :
+  _name(name),
+  _group(group),
+  _address(0),
+  _address8(address),
+  _function(function),
   _writeable(writeable),
   _cb(nullptr) {
     _dps.push_back(this);
@@ -51,8 +64,3 @@ void IDatapoint::setValue(DPValue value) {
     _globalCb(*this, value);
   }
 }
-
-
-DatapointGWG::DatapointGWG(const char* name, const char* group, uint8_t function, uint8_t address, bool writeable) :
-  _function(function),IDatapoint(name, group, address, writeable);
-  }

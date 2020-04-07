@@ -40,7 +40,7 @@ class OptolinkP300 {
   const bool connected() const;
   const int8_t available() const;
   const bool isBusy() const;
-  bool readFromDP(uint16_t address, uint8_t length);
+  bool readFromDP(uint8_t function,uint16_t address, uint8_t length);
   bool writeToDP(uint16_t address, uint8_t length, uint8_t value[]);
   void read(uint8_t value[]);
   const uint8_t readError();
