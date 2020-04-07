@@ -35,6 +35,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "DPTypes.hpp"
 #include "DPValue.hpp"
 #include "Constants.hpp"
+#include "GWGConstants.hpp"
 
 
 // callback and forward declares
@@ -92,6 +93,25 @@ class Datapoint : public IDatapoint {
   DPValue decode(const uint8_t* in) { return _t.decode(in); }
 };
 
+template <class T>
+class DatapointGWG : public IDatapoint {
+ public:
+  DatapointGWG(const char* name, const char* group,uint8_t function ,uint8_t address, bool writable);
+  DatapointGWG& setfunction(uint8_t function) { _function = function; return *this; }
+  const uint8_t getAddress() const { return _function; }
+  
+
+ protected:
+  T _t;
+  uint8_t _function;
+
+ public:
+  const size_t getLength() const { return _t.getLength(); }
+  IDatapoint& setLength(uint8_t length) { _t.setLength(length); return *this; }
+  void encode(uint8_t* out, const DPValue in)  { _t.encode(out, in); }
+  DPValue decode(const uint8_t* in) { return _t.decode(in); }
+};
+
 typedef Datapoint<convRaw> DPRaw;
 typedef Datapoint<conv2_10_F> DPTemp;
 typedef Datapoint<conv1_1_US> DPTempS;
@@ -101,3 +121,13 @@ typedef Datapoint<conv2_1_UL> DPCountS;
 typedef DPTempS DPMode;
 typedef Datapoint<conv4_3600_F> DPHours;
 typedef Datapoint<conv1_10_F> DPCoP;
+
+typedef DatapointGWG<convRaw> DPRawGWG;
+typedef DatapointGWG<conv2_10_F> DPTempGWG;
+typedef DatapointGWG<conv1_1_US> DPTempSGWG;
+typedef DatapointGWG<conv1_1_B> DPStatGWG;
+typedef DatapointGWG<conv4_1_UL> DPCountGWG;
+typedef DatapointGWG<conv2_1_UL> DPCountSGWG;
+typedef DPTempS DPModeGWG;
+typedef DatapointGWG<conv4_3600_F> DPHoursGWG;
+typedef DatapointGWG<conv1_10_F> DPCoPGWG;

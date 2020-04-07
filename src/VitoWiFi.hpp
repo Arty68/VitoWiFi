@@ -37,6 +37,7 @@ and many others
 #include "Datapoint.hpp"
 #include "OptolinkKW.hpp"
 #include "OptolinkP300.hpp"
+#include "OptolinkGWG.hpp"
 
 template <class P>
 class VitoWiFiClass {

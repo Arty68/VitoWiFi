@@ -51,3 +51,8 @@ void IDatapoint::setValue(DPValue value) {
     _globalCb(*this, value);
   }
 }
+
+
+DatapointGWG::DatapointGWG(const char* name, const char* group, uint8_t function, uint8_t address, bool writeable) :
+  _function(function),IDatapoint(name, group, address, writeable);
+  }
