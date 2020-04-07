@@ -138,7 +138,7 @@ void OptolinkGWG::_sendHandler() {
     buff[2] = _length;
  memcpy(&buff[3], _value, _length);
     // add value to message
-    memcpy(&buff[4], 0x04, _length);
+    buff[4]= 0x04;
     _rcvLen = 1;  // expected length is only ACK (0x00)
     _stream->write(buff, 4 + _length);
   } else {
